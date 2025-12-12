@@ -4,6 +4,10 @@ fleet of Airlines and Bookings and Tickets for Customers.
 
 ## 2. Deployment Instructions
 
+URL: https://airline-reservation-database-application.onrender.com/
+
+Note that only the frontend works at the moment. Backend will be functional soon...
+
 You may have to tweak a few things with environment variables and URLs when running locally.
 
 To deploy on Render:
