@@ -1,6 +1,6 @@
 # About
-This is a database driven airline reservation web application which enables airlines to manage their
-fleet of airlines and manage customers bookings and tickets
+This is a database driven airline reservation web application which enables Airlines to manage their
+fleet of Airlines and Bookings and Tickets for Customers.
 
 ## 2. Deployment Instructions
 
