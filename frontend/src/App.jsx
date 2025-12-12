@@ -2,9 +2,9 @@ import { Routes, Route } from 'react-router-dom';
 
 // Get the port and host from the .env file
 const BACKEND_PORT = import.meta.env.VITE_BACKEND_PORT;
-const HOST = import.meta.env.VITE_HOST_LOCAL;
+//const HOST = import.meta.env.VITE_HOST_LOCAL;
 
-// const HOST = import.meta.env.VITE_HOST;
+const HOST = import.meta.env.VITE_HOST;
 
 // Pages
 import Home from './pages/Home';
