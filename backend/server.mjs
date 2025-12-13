@@ -16,7 +16,7 @@ const app = express();
 app.use(cors({ credentials: true, origin: "*" }));
 app.use(express.json()); // this is needed for post requests
 
-const PORT = 7230;
+const PORT = process.env.PORT || 7230;
 
 // Generic messages
 const QUERY_ERROR = {Error: "An error occurred while executing the database queries. Please check inputs"}
@@ -377,5 +377,5 @@ app.post('/flights', async function (req, res) {
 // ########## LISTENER
 
 app.listen(PORT, function () {
-    console.log('Express started on https://www.freesqldatabase.com:' + PORT + '; press Ctrl-C to terminate.');
+    console.log('Express started on https://backend-airline-reservation-database-app.onrender.com:' + PORT + '; press Ctrl-C to terminate.');
 });
