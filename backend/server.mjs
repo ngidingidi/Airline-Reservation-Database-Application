@@ -20,7 +20,7 @@ app.use(cors({
     'https://airline-reservation-database-application.onrender.com',
     'http://localhost:5173' // for dev
   ],
-  credentials: false, // Snot using cookies; omit credentials
+  credentials: false, // not using cookies; omit credentials
 }));
 
 app.use(express.json()); // this is needed for post requests
