@@ -13,7 +13,16 @@ import cors from 'cors';
 const app = express();
 
 // Middleware
-app.use(cors({ credentials: true, origin: "*" }));
+//app.use(cors({ credentials: true, origin: "*" }));
+
+app.use(cors({
+  origin: [
+    'https://airline-reservation-database-application.onrender.com',
+    'http://localhost:5173' // for dev
+  ],
+  credentials: false, // Snot using cookies; omit credentials
+}));
+
 app.use(express.json()); // this is needed for post requests
 
 const PORT = process.env.PORT || 7230;
