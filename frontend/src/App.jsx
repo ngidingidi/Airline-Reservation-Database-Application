@@ -20,7 +20,8 @@ import Navigation from './components/Navigation';
 
 // Define the backend port and URL for API requests
 const backendPort = BACKEND_PORT;  // Use the port you assigned to the backend server, this would normally go in a .env file
-const backendURL = `${HOST}:${backendPort}`;
+//const backendURL = `${HOST}:${backendPort}`;
+backendURL = `${HOST}`;
 
 function App() {
 
