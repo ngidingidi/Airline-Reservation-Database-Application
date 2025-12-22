@@ -6,8 +6,6 @@ fleet of Airlines and Bookings and Tickets for Customers. The data is stored in 
 
 URL: https://airline-reservation-database-application.onrender.com/
 
-Note that only the frontend works at the moment. Backend will be functional soon...
-
 You may have to tweak your environment variables and URLs when running locally.
 
 To deploy on Render:
