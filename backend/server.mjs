@@ -25,7 +25,7 @@ app.use(cors({
 
 app.use(express.json()); // this is needed for post requests
 
-const PORT = process.env.PORT || 7230;
+const PORT = Number(process.env.PORT) || 21469;
 
 // Generic messages
 const QUERY_ERROR = {Error: "An error occurred while executing the database queries. Please check inputs"}
@@ -97,6 +97,7 @@ app.get('/flights', async (req, res) => {
     }
 });
 
+/* 
 // Tickets
 app.get('/tickets', async (req, res) => {
     try {
@@ -122,7 +123,47 @@ app.get('/tickets', async (req, res) => {
         res.status(500).json(QUERY_ERROR);
     }
 });
+*/
 
+
+// Tickets. Used the following to make it work with Aiven DB hosting
+app.get('/tickets', async (_req, res) => {
+  try {
+    // Use exact table casing, schema-qualified names, and backticks for identifiers.
+    // Use single quotes for the space in CONCAT.
+    const query = `
+      SELECT
+        t.\`ticket_id\`                                  AS \`Ticket ID\`,
+        f.\`flight_id\`                                  AS \`Flight ID\`,
+        b.\`booking_id\`                                 AS \`Booking ID\`,
+        b.\`booking_date\`                               AS \`Booking Date\`,
+        CONCAT(c.\`first_name\`, ' ', c.\`last_name\`)   AS \`Customer Name\`,
+        f.\`departure_city\`                             AS \`Departure City\`,
+        f.\`arrival_city\`                               AS \`Arrival City\`
+      FROM \`defaultdb\`.\`Tickets\`   t
+      INNER JOIN \`defaultdb\`.\`Bookings\`  b ON t.\`booking_id\` = b.\`booking_id\`
+      INNER JOIN \`defaultdb\`.\`Customers\` c ON b.\`customer_id\` = c.\`customer_id\`
+      INNER JOIN \`defaultdb\`.\`Flights\`   f ON t.\`flight_id\`   = f.\`flight_id\`
+      ORDER BY t.\`ticket_id\` ASC;
+    `;
+
+    const [rows] = await db.query(query);
+    res.status(200).json({ tickets: rows });
+  } catch (error) {
+    // Log full DB error details for quick diagnosis
+    console.error('GET /tickets error:', {
+      code: error.code,
+      errno: error.errno,
+      sqlState: error.sqlState,
+      sqlMessage: error.sqlMessage,
+      message: error.message
+    });
+    res.status(500).json({ Error: 'An error occurred while executing the database queries. Please check inputs' });
+  }
+});
+
+
+/*
 // Bookings
 app.get('/bookings', async (req, res) => {
     try {
@@ -143,6 +184,37 @@ app.get('/bookings', async (req, res) => {
         res.status(500).json(QUERY_ERROR);
     }
 });
+*/
+
+
+app.get('/bookings', async (_req, res) => {
+  try {
+    const query = `
+      SELECT
+        b.\`booking_id\`                               AS \`Booking ID\`,
+        CONCAT(c.\`first_name\`, ' ', c.\`last_name\`) AS \`Customer Name\`,
+        b.\`booking_price\`                            AS \`Booking Price\`,
+        b.\`booking_date\`                             AS \`Booking Date\`
+      FROM \`defaultdb\`.\`Bookings\` b
+      LEFT JOIN \`defaultdb\`.\`Customers\` c
+        ON b.\`customer_id\` = c.\`customer_id\`
+      ORDER BY b.\`booking_id\` ASC;
+    `;
+    const [rows] = await db.query(query);
+    res.status(200).json({ bookings: rows });
+  } catch (error) {
+    console.error('GET /bookings error:', {
+      code: error.code,
+      errno: error.errno,
+      sqlState: error.sqlState,
+      sqlMessage: error.sqlMessage,
+      message: error.message
+    });
+    res.status(500).json({ Error: 'An error occurred while executing the database queries. Please check inputs' });
+  }
+});
+
+
 
 // Customers
 app.get('/customers', async (req, res) => {
@@ -382,9 +454,10 @@ app.post('/flights', async function (req, res) {
     }
 });
 
+
 // ########################################
 // ########## LISTENER
 
 app.listen(PORT, function () {
-    console.log('Express started on https://backend-airline-reservation-database-app.onrender.com:' + PORT + '; press Ctrl-C to terminate.');
+    console.log('Express started on http://airline-reservation-database-application.onrender.com:' + PORT + '; press Ctrl-C to terminate.');
 });

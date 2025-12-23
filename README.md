@@ -1,6 +1,6 @@
 # About
 This is a database driven airline reservation web application which enables Airlines to manage their
-fleet of Airlines and Bookings and Tickets for Customers. The data is stored in a MySQL database (https://www.freesqldatabase.com/)
+fleet of Airlines and Bookings and Tickets for Customers. The data is stored in a MySQL database provided by Aiven (https://aiven.io/free-mysql-database)
 
 ## 2. Deployment Instructions
 
@@ -51,13 +51,15 @@ Add environmental variables defined below
 Modify CORS in backend as indicated below (taken from mjs files)
 
 ```
-const PORT = process.env.PORT || 7230;
+const PORT = Number(process.env.PORT) || 21469;
 
-DB_HOST = XXXX
-DB_NAME = XXXX
-DB_PASSWORD = XXXX
-DB_PORT = XXXX
-DB_USER = XXXX
+HOST_PROD=XXXX
+USERNAME_PROD=XXXX
+PASSWORD_PROD=XXXX
+DATABASE_PROD=XXXX
+DB_SSL_CA=-----BEGIN CERTIFICATE-----
+Copy and paste ca.pem content here
+-----END CERTIFICATE-----
 
 app.use(cors({
   origin: [
