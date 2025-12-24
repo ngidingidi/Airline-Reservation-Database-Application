@@ -3,13 +3,13 @@ This is a database driven airline reservation web application which enables Airl
 fleet of Airlines and Bookings and Tickets for Customers. The data is stored in a MySQL database provided by Aiven. At the time of writing, Aiven provided free database hosting (https://aiven.io/free-mysql-database)
 
 ## 1. Connecting to MySQL Database via CLI on Visual Studio
-Connect to MySQL Database on Aiven using Visual Studio's Database Client JDBC.
-Create a connection
-Enter Host, Username, Port, Password
-Open terminal
-Copy and paste ddl file content to create tables and insert sample data
-Copy and paste pl/sql file content to create views and stored procedures
-Verify that tables and sample data loaded using standard SQL commands such as
+- Connect to MySQL Database on Aiven using Visual Studio's Database Client JDBC.
+- Create a connection
+- Enter Host, Username, Port, Password
+- Open terminal
+- Copy and paste ddl file content to create tables and insert sample data
+- Copy and paste pl/sql file content to create views and stored procedures
+- Verify that tables and sample data loaded using standard SQL commands such as
 
 ```
 show databases;
