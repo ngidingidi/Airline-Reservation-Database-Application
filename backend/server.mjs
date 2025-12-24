@@ -20,7 +20,7 @@ app.use(cors({
     'https://airline-reservation-database-application.onrender.com',
     'http://localhost:5173' // for dev
   ],
-  credentials: false, // not using cookies; omit credentials
+  credentials: false, 
 }));
 
 app.use(express.json()); // this is needed for post requests
@@ -214,26 +214,35 @@ app.get('/bookings', async (_req, res) => {
   }
 });
 
-
-
 // Customers
 app.get('/customers', async (req, res) => {
-    try {
-        // Get customers data.
-        const query = `SELECT Customers.customer_id as "Customer ID", Customers.first_name as "First Name", Customers.last_name as "Last Name",\
-                        Customers.email as "Email", Customers.phone_number as "Phone Number"\
-                        FROM Customers\
-                        ORDER BY Customers.customer_id ASC;`;
-        const [customers] = await db.query(query);
-    
-        // Send the results to the frontend
-        res.status(200).json({ customers });
+  try {
+    const query = `
+      SELECT
+        Customers.customer_id AS \`Customer ID\`,
+        Customers.first_name AS \`First Name\`,
+        Customers.last_name  AS \`Last Name\`,
+        Customers.email      AS \`Email\`,
+        Customers.phone_number AS \`Phone Number\`
+      FROM Customers
+      ORDER BY Customers.customer_id ASC;
+    `;
 
-    } catch (error) {
-        // Send an error message to the browser and console
-        console.error("Error executing queries:", error);
-        res.status(500).json(QUERY_ERROR);
-    }
+    const [customers] = await db.query(query);
+
+    // Always return an array (even if empty)
+    res.status(200).json({ customers: customers ?? [] });
+  } catch (error) {
+    // Log details to diagnose quickly
+    console.error('GET /customers failed:', {
+      code: error.code,
+      errno: error.errno,
+      sqlState: error.sqlState,
+      sqlMessage: error.sqlMessage,
+      message: error.message,
+    });
+    res.status(500).json({ Error: 'An error occurred while executing the database queries. Please check inputs' });
+  }
 });
 
 // ################### RESET ROUTES ###################
